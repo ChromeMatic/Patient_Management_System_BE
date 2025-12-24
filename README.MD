@@ -105,7 +105,7 @@ docker-compose up -d
 After setting up the database and the environment, start the FastAPI server:
 
 ```bash
-uvicorn main:app --reload
+fastapi dev mian.py   
 
 ```
 

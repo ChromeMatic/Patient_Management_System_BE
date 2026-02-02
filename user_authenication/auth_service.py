@@ -51,8 +51,22 @@ def verify_jwt_access_token(jwt_token:str):
         if email is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="User's creditials could not be verified."
+                detail="User's creditials could not be verified.",
+                headers={"WWW-Authenticate":"Bearer"}
             )
+        
+        return  email
+    # except jwt.PyJWTError:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_401_UNAUTHORIZED,
+    #         detail="User's creditials could not be verified.",
+    #         headers={"WWW-Authenticate":"Bearer"}
+    #     )
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error in verifing JWT token"
+        )
 
     
 # Create JWT Access Token

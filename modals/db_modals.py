@@ -1,7 +1,7 @@
 import uuid
 import enum
 from datetime import datetime
-from sqlalchemy import Column, String, text, Enum, DateTime, func
+from sqlalchemy import Column, Boolean, String, text, Enum, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from database_config.db_config import Base
 
@@ -26,6 +26,7 @@ class Users(Base):
     last_name = Column(String,nullable=False)
     username = Column(String,nullable=False,unique=True)
     password = Column(String,nullable=False)
+    is_active = Column(Boolean,default=True,nullable=False)
     role = Column(
         Enum(UserRole, name="user_role_enum"),
         nullable=False,

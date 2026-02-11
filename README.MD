@@ -51,7 +51,6 @@ source venv/bin/activate
 ```
 
 
-
 ### 2. Install Dependencies
 
 Once the virtual environment is active, install the required packages:

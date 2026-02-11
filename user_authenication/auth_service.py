@@ -7,7 +7,6 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from modals.db_modals import Users
-from jwt.exceptions import InvalidTokenError
 from pwdlib import PasswordHash
 from pydantic import BaseModel
 
@@ -56,12 +55,6 @@ def verify_jwt_access_token(jwt_token:str):
             )
         
         return  email
-    # except jwt.PyJWTError:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_401_UNAUTHORIZED,
-    #         detail="User's creditials could not be verified.",
-    #         headers={"WWW-Authenticate":"Bearer"}
-    #     )
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -82,7 +75,8 @@ def create_access_token(user_data:dict, expires_delta:Optional[timedelta]=None):
         to_encode.update({"exp":expire})
         encoded_web_token = jwt.encode(payload=to_encode,key=secret_key,algorithm=algorithm)
 
-        return encoded_web_token
+        return { "access_token":encoded_web_token, "token_type":"Barer"}
+    
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -104,11 +98,13 @@ def authenticate_user(db:Session, username:str, password:str):
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Incorrect password."
             )
-        return user
+       
+        user_data:dict = {"sub": user.username, "exp":""}
+        
+        return create_access_token(user_data=user_data,expires_delta=None)
     
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Please check user cred."
         )
-    

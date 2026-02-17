@@ -5,6 +5,7 @@ class create_doctor(BaseModel):
     user_id: str
     frist_name: str
     last_name: str
+    created_by: str
 
 class edit_doctor(BaseModel):
     docter_id: str

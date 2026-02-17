@@ -27,3 +27,8 @@ def Fetch_doctor_by_Id(db:db_dependency,user_id:str):
 @docter_endpoint.post("/create", status_code=status.HTTP_201_CREATED)
 def Create_new_doctor_record(db:db_dependency,new_value:create_doctor):
     return create_new_docter(db=db,value=new_value)
+
+#  This endpoint edit docter information
+@docter_endpoint.patch("/edit", status_code=status.HTTP_200_OK)
+def Edit_doctor_info(db:db_dependency,values:edit_doctor):
+    return edit_docter_info(db=db,value=values)

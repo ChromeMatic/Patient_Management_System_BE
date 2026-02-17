@@ -13,7 +13,7 @@ SessionLocal = sessionmaker(autocomit=False,autoflush=False,bind=engine)
 
 # SQLAlchemy base model
 Base = declarative_base()
-
+ 
 # Database Instance
 def get_db():
     db = SessionLocal()

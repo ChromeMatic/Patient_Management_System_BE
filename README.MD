@@ -60,6 +60,18 @@ pip install -r requirements.txt
 
 ```
 
+### 3. Run Database migrations
+
+Generate sql migration file
+```bash
+ alembic revision --autogenerate -m "init migration file" 
+```
+
+Run sql migration file
+```bash
+ alembic upgrade head
+```
+
 ---
 
 ## 🐳 Docker Setup

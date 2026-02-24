@@ -1,7 +1,6 @@
 import uuid
 import enum
-from datetime import datetime
-from sqlalchemy import Column, Boolean, String, text, Enum, DateTime, func
+from sqlalchemy import ForeignKey, Column, Boolean, String, text, Enum, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from database_config.db_config import Base
 
@@ -55,7 +54,7 @@ class Docter(Base):
         nullable=False,
         server_default=text("gen_random_uuid()")
     )
-    user_id = Column(String, nullable=False)
+    user_id = Column(UUID, ForeignKey("users.id"), nullable=False)
     frist_name = Column(String,nullable=False)
     last_name = Column(String,nullable=False)
     created_at = Column(
@@ -81,12 +80,41 @@ class Patient(Base):
         nullable=False,
         server_default=text("gen_random_uuid()")
     )
-    docter_id = Column(String,nullable=False)
+    docter_id = Column(UUID,ForeignKey("docter_table.docter_id"),nullable=False)
     frist_name = Column(String,nullable=False)
     last_name = Column(String,nullable=False)
     DOB = Column(DateTime,nullable=False)
     TRN = Column(String, nullable=False)
+    phone_number = Column(String,nullable=False)
     Address = Column(String, nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+    edited_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        server_default=func.now()
+    )
+
+
+class Next_Of_Kin(Base):
+    __tablename__="next_of_kin"
+
+    next_of_kin_id= Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    frist_name = Column(String,nullable=False)
+    last_name = Column(String,nullable=False)
+    relation = Column(String,nullable=False)
+    phone_number = Column(String,nullable=False)
+    current_address = Column(String,nullable=False)
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,

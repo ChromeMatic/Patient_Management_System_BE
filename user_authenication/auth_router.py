@@ -10,6 +10,6 @@ auth_router = APIRouter( prefix="/auth",tags=["Authenication Route"])
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
-@auth_router.post("/token",status_code=status.HTTP_200_OK, response_class=Token)
+@auth_router.post("/token",status_code=status.HTTP_200_OK)
 def Authenicate_User(db:db_dependency,user:user_credentials):
     return authenticate_user(db=db,username=user.username,password=user.password)

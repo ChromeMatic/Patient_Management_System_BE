@@ -13,6 +13,7 @@ class Insert_user_info(BaseModel):
     frist_name:str
     last_name:str
     username:str
+    password:str
     role:str
 
 class Edit_user_info(BaseModel):

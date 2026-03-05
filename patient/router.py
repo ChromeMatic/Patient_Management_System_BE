@@ -22,3 +22,8 @@ def Fetch_patient_by_id(db:db_dependency,ID:str):
 @patient_endpoint.post("/create-new-patient",status_code=status.HTTP_201_CREATED)
 def Create_new_patient(db:db_dependency,patient:insert_patient):
     return create_new_patient(db=db,new_record=patient)
+
+# This endpoint edit patient record
+@patient_endpoint.patch("/edit-patient",status_code=status.HTTP_200_OK)
+def Edit_patient_record(db:db_dependency,patient:edit_patient):
+    return edit_patient_record(db=db,record=patient)

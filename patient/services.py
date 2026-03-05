@@ -1,5 +1,5 @@
 from modals.db_modals import Patient
-from  patient.patient_class import insert_patient,edit_patient
+from patient.patient_class import insert_patient,edit_patient
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status

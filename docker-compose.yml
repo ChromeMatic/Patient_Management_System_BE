@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16-alpine
+    image: dhi.io/postgres:18-alpine3.22-dev
     container_name: postgres_db
     restart: always
     environment:

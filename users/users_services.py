@@ -10,11 +10,11 @@ def get_all_users(db:Session,limnit:int,offset:int):
     return db.query(Users).limit(limit=limnit).offset(offset=offset).all()
 
 # This function get patient by ID
-def get_patient_by_ID(db:Session,user_Id:str):
+def get_user_by_ID(db:Session,user_Id:str):
     return db.query(Users).filter(Users.id == user_Id).first()
 
 # This function get patient by usernme [email address]
-def get_patient_by_usernme(db:Session,usernaame:str):
+def get_user_by_usernme(db:Session,usernaame:str):
     return db.query(Users).filter(Users.username == usernaame).first()
 
 # This function adds new user to databse table
@@ -37,4 +37,26 @@ def create_new_user(db:Session,new_user:Insert_user_info):
           raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error in creating new user."
+        )
+    
+
+# This function edit user informtion
+def edit_user_info(db:Session,user_info:Edit_user_info):
+    try:
+
+        _user_ = get_user_by_ID(db=db,user_Id=user_info.id)
+
+        _user_.username = user_info.username
+        _user_.frist_name = user_info.frist_name
+        _user_.last_name = user_info.last_name
+        _user_.role = user_info.role
+
+        db.commit()
+        db.refresh(_user_)
+
+        return "User infomation edited"
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error in edited user information."
         )

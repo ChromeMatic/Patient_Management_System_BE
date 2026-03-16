@@ -20,7 +20,7 @@ password_hash = PasswordHash.recommended()
 
 # This function is responsible for password hashing
 def get_password_hashed(plain_password:str):
-    return password_hash.hash(password=plain_password,salt=10)
+    return password_hash.hash(password=plain_password)
 
 # This function verify user password
 def verify_user_password(plain_password:str,hashed_password) -> bool:

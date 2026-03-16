@@ -30,23 +30,23 @@ def get_patients_by_docter(db:Session,doctor_id:str,limnit:int,offset:int):
 def create_new_patient(db:Session,new_record:insert_patient):
     try:
         new_patient = Patient(
-            docter_id = new_record.docter_id,
             frist_name = new_record.frist_name,
             last_name = new_record.last_name,
             DOB = new_record.DOB,
             TRN = new_record.TRN,
-            Address =  new_record.Address
+            Address =  new_record.Address,
+            phone_number = new_record.phone_number
         )
 
         db.add(new_patient)
         db.commit()
 
         return "New Patient added."
-    except Exception:
+    except Exception as err:
           db.rollback()
           raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error in create new patient in database."
+            detail=f"Error in create new patient in database: {err}"
         )
     
 # This funtion edit patient record

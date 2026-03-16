@@ -9,9 +9,9 @@ user_endpoint = APIRouter( prefix="/user",tags=["User Endpoints"])
 db_dependency = Annotated[Session, Depends(get_db)]
 
 # This endpoint fetch all user infomation
-@user_endpoint.get("/all-users",status_code=status.HTTP_200_OK)
-def Fetch_all_users(db:db_dependency):
-    return get_all_users(db=db)
+@user_endpoint.get("/all-users/{limit:int}/{offset}",status_code=status.HTTP_200_OK)
+def Fetch_all_users(db:db_dependency,limit:int,offset:int):
+    return get_all_users(db=db,limit=limit,offset=offset)
 
 # This endpoint fetch user by userId
 @user_endpoint.get("/get-user-by-id/{user_id:str}",status_code=status.HTTP_200_OK)

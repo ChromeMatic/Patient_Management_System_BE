@@ -1,9 +1,9 @@
 FROM python:3.12-alpine
 
-WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 
+ENV PYTHONUNBUFFERED=1
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+WORKDIR /app
 
 COPY requirements.txt .
 RUN apk add --no-cache bash netcat-openbsd

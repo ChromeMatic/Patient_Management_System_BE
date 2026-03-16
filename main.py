@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from user_authenication.auth_router import auth_router
 from docter.router import docter_endpoint
 from patient.router import  patient_endpoint
+from users.user_router import user_endpoint
 
 app = FastAPI(
     title="Patient Managemnt System BE",
@@ -16,3 +17,4 @@ def server_status_check():
 app.include_router(auth_router)
 app.include_router(docter_endpoint)
 app.include_router(patient_endpoint)
+app.include_router(user_endpoint)

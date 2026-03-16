@@ -80,7 +80,7 @@ class Patient(Base):
         nullable=False,
         server_default=text("gen_random_uuid()")
     )
-    docter_id = Column(UUID,ForeignKey("docter_table.docter_id"),nullable=False)
+    docter_id = Column(UUID,ForeignKey("docter_table.docter_id"),nullable=True)
     frist_name = Column(String,nullable=False)
     last_name = Column(String,nullable=False)
     DOB = Column(DateTime,nullable=False)

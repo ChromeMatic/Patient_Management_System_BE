@@ -1,4 +1,4 @@
-from users_class import Insert_user_info,Edit_user_info
+from users.users_class import Insert_user_info,Edit_user_info
 from modals.db_modals import Users,UserRole
 from user_authenication.auth_service import get_password_hashed
 from sqlalchemy import func
@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
 # This function gets all patients from Database
-def get_all_users(db:Session,limnit:int,offset:int):
-    return db.query(Users).limit(limit=limnit).offset(offset=offset).all()
+def get_all_users(db:Session,limit:int,offset:int):
+    return db.query(Users).limit(limit=limit).offset(offset=offset).all()
 
 # This function get patient by ID
 def get_user_by_ID(db:Session,user_Id:str):
@@ -22,9 +22,9 @@ def create_new_user(db:Session,new_user:Insert_user_info):
     try:
 
         user = Users(
-            frist_name = new_user.frist_name,
-            last_name = new_user.last_name,
-            username = new_user.username,
+            frist_name = str(new_user.frist_name),
+            last_name = str(new_user.last_name),
+            username = str(new_user.username),
             password = get_password_hashed(new_user.password),
             role = UserRole.USER
         )
@@ -33,10 +33,11 @@ def create_new_user(db:Session,new_user:Insert_user_info):
         db.commit()
 
         return "New User added."
-    except Exception:
+    except Exception as e:
+          db.rollback()
           raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error in creating new user."
+            detail=f"DEBUG: The error type is {type(e)} and message is {e}"
         )
     
 

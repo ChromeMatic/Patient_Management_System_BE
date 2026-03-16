@@ -4,7 +4,7 @@ set -e
 
 echo "Waiting to connect to database...."
 
-until nc -z "" ""; do
+until nc -z "$DB_HOST" "$DB_PORT"; do
     echo "Waiting for database connection.."
     sleep 3
 done

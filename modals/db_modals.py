@@ -1,6 +1,7 @@
 import uuid
 import enum
-from sqlalchemy import ForeignKey, Column, Boolean, String, text, Enum, DateTime, func
+from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, Column, Boolean, String, Float, text, Enum, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from database_config.db_config import Base
 
@@ -98,6 +99,10 @@ class Patient(Base):
         server_default=func.now()
     )
 
+    relative = relationship("Next_Of_Kin",back_populates="kin")
+    complaints = relationship("Presenting_Complain",back_populates="patient_com")
+    blood_pressure = relationship("Patient_Blood_Pressure_Vitals",back_populates="patient_bl_p_rec")
+
 
 class Next_Of_Kin(Base):
     __tablename__="next_of_kin"
@@ -125,3 +130,63 @@ class Next_Of_Kin(Base):
         nullable=True,
         server_default=func.now()
     )
+
+    kin = relationship("Patient",back_populates="relative")
+    
+
+
+class Presenting_Complain(Base):
+    __tablename__="presenting_complain"
+
+    complaint_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    patient_complaint =  Column(String,nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+    edited_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        server_default=func.now()
+    )
+
+    patient_com = relationship("Patient",back_populates="complaints")
+
+
+# Create patient record notes (vitals, medical notes, and file attachments)
+
+class Patient_Blood_Pressure_Vitals(Base):
+    __tablename__="patient_vitals"
+
+    patient_vitals_id =  Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    blood_pressure_top_value = Column(Float,nullable=False)
+    blood_pressure_bottom_value = Column(Float,nullable=False)
+    body_temperature = Column(Float,nullable=False)
+    plus_rate = Column(Float,nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+    edited_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        server_default=func.now()
+    )
+
+    patient_bl_p_rec = relationship("Patient",back_populates="blood_pressure")

@@ -134,7 +134,6 @@ class Next_Of_Kin(Base):
     kin = relationship("Patient",back_populates="relative")
     
 
-
 class Presenting_Complain(Base):
     __tablename__="presenting_complain"
 
@@ -160,8 +159,6 @@ class Presenting_Complain(Base):
 
     patient_com = relationship("Patient",back_populates="complaints")
 
-
-# Create patient record notes (vitals, medical notes, and file attachments)
 
 class Patient_Blood_Pressure_Vitals(Base):
     __tablename__="patient_vitals"
@@ -190,3 +187,51 @@ class Patient_Blood_Pressure_Vitals(Base):
     )
 
     patient_bl_p_rec = relationship("Patient",back_populates="blood_pressure")
+
+class Patients_Records(Base):
+    __tablename__ = "patient_records"
+
+    record_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    patient_vitals = Column(UUID,ForeignKey("patient_vitals.patient_vitals_id"),nullable=False)
+    presenting_complain = Column(UUID,ForeignKey("presenting_complain.complaint_id"),nullable=False)
+    notes = Column(String,nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+    edited_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        server_default=func.now()
+    )
+
+class Patient_File(Base):
+    __tablename__ = "patient_files"
+
+    file_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    url_link =  Column(String,nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+    edited_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        server_default=func.now()
+    )

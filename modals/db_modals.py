@@ -100,8 +100,8 @@ class Patient(Base):
     )
 
     relative = relationship("Next_Of_Kin",back_populates="kin")
-    complaints = relationship("Presenting_Complain",back_populates="patient_com")
     blood_pressure = relationship("Patient_Blood_Pressure_Vitals",back_populates="patient_bl_p_rec")
+    history = relationship("Patients_Records",back_populates="records")
 
 
 class Next_Of_Kin(Base):
@@ -132,32 +132,6 @@ class Next_Of_Kin(Base):
     )
 
     kin = relationship("Patient",back_populates="relative")
-    
-
-class Presenting_Complain(Base):
-    __tablename__="presenting_complain"
-
-    complaint_id = Column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        default=uuid.uuid4,
-        nullable=False,
-        server_default=text("gen_random_uuid()")
-    )
-    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
-    patient_complaint =  Column(String,nullable=False)
-    created_at = Column(
-        DateTime(timezone=True),
-        nullable=False,
-        server_default=func.now()
-    )
-    edited_at = Column(
-        DateTime(timezone=True),
-        nullable=True,
-        server_default=func.now()
-    )
-
-    patient_com = relationship("Patient",back_populates="complaints")
 
 
 class Patient_Blood_Pressure_Vitals(Base):
@@ -200,7 +174,9 @@ class Patients_Records(Base):
     )
     patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
     patient_vitals = Column(UUID,ForeignKey("patient_vitals.patient_vitals_id"),nullable=False)
-    presenting_complain = Column(UUID,ForeignKey("presenting_complain.complaint_id"),nullable=False)
+    presenting_complain = Column(String,nullable=False) 
+    patient_diagnosis = Column(String,nullable=False)
+    patient_treatment = Column(String,nullable=False)
     notes = Column(String,nullable=False)
     created_at = Column(
         DateTime(timezone=True),
@@ -212,6 +188,8 @@ class Patients_Records(Base):
         nullable=True,
         server_default=func.now()
     )
+
+    records = relationship("Patient",back_populates="history")
 
 class Patient_File(Base):
     __tablename__ = "patient_files"
@@ -233,5 +211,24 @@ class Patient_File(Base):
     edited_at = Column(
         DateTime(timezone=True),
         nullable=True,
+        server_default=func.now()
+    )
+
+class Appointment_Table(Base):
+    __tablename__ = "appointment_table"
+
+    appointment_id= Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    status = Column(String,nullable=False)
+    date = Column(DateTime(timezone=True),nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
         server_default=func.now()
     )

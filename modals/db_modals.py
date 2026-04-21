@@ -43,7 +43,6 @@ class Users(Base):
         server_default=func.now()
     )
 
-
 class Docter(Base):
 
     __tablename__="docter_table"
@@ -68,7 +67,6 @@ class Docter(Base):
         nullable=True,
         server_default=func.now()
     )
-
 
 class Patient(Base):
 
@@ -103,7 +101,6 @@ class Patient(Base):
     blood_pressure = relationship("Patient_Blood_Pressure_Vitals",back_populates="patient_bl_p_rec")
     history = relationship("Patients_Records",back_populates="records")
 
-
 class Next_Of_Kin(Base):
     __tablename__="next_of_kin"
 
@@ -132,7 +129,6 @@ class Next_Of_Kin(Base):
     )
 
     kin = relationship("Patient",back_populates="relative")
-
 
 class Patient_Blood_Pressure_Vitals(Base):
     __tablename__="patient_vitals"
@@ -227,6 +223,25 @@ class Appointment_Table(Base):
     patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
     status = Column(String,nullable=False)
     date = Column(DateTime(timezone=True),nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+
+class Queue_table(Base):
+    __tablename__ = "queue_table"
+
+    queue_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    appointment_id = Column(UUID,ForeignKey(""),nullable=False)
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    status = Column(String,nullable=False) # be a const
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,

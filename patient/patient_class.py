@@ -21,7 +21,7 @@ class edit_patient(BaseModel):
 
 class Insert_Next_Of_Kin(BaseModel):
     next_of_kin_id:Optional[str]
-    patient_id:str
+    patient_id:Optional[str]
     frist_name:str
     last_name:str
     relation:str

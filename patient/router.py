@@ -2,7 +2,7 @@ from fastapi import Depends, APIRouter, status
 from sqlalchemy.orm import Session
 from typing import Annotated
 from database_config.db_config import get_db
-from patient.patient_class import insert_patient,edit_patient, Insert_Next_Of_Kin
+from patient.patient_class import insert_patient,edit_patient, next_of_kin
 from patient.services import get_all_patients, get_patient_by_ID, create_new_patient, edit_patient_record, get_all_next_of_kin_record
 
 patient_endpoint = APIRouter( prefix="/Patient",tags=["Patient Endpoints"])
@@ -25,7 +25,7 @@ def Fetch_all_next_of_kin_record(db:db_dependency,limit:int,offset:int):
 
 # This endpoint create new patient record
 @patient_endpoint.post("/create-new-patient",status_code=status.HTTP_201_CREATED)
-def Create_new_patient(db:db_dependency,patient:insert_patient,kin:Insert_Next_Of_Kin):
+def Create_new_patient(db:db_dependency,patient:insert_patient,kin:next_of_kin):
     return create_new_patient(db=db,new_record=patient,new_kin=kin)
 
 

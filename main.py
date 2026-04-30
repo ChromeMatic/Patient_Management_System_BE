@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from user_authenication.auth_router import auth_router
 from docter.router import docter_endpoint
 from patient.router import  patient_endpoint
@@ -9,6 +10,16 @@ app = FastAPI(
     title="Patient Managemnt System BE",
     version="0.0.1",
     description="This contains the backend logic for the Patient Managemnt System build with ptython (FastAPI)"
+)
+
+origin = ["http://localhost:5173"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origin,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/status")

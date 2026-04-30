@@ -28,6 +28,13 @@ class Insert_Next_Of_Kin(BaseModel):
     phone_number:str
     current_address:str
 
+class next_of_kin(BaseModel):
+    frist_name:str
+    last_name:str
+    relation:str
+    phone_number:str
+    current_address:str
+
 class Edit_Next_Of_Kin(BaseModel):
     next_of_kin_id:str
     patient_id:str

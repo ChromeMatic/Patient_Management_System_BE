@@ -1,5 +1,5 @@
 from modals.db_modals import Patient, Next_Of_Kin, Patients_Records
-from patient.patient_class import insert_patient,edit_patient, Insert_Next_Of_Kin, Edit_Next_Of_Kin
+from patient.patient_class import insert_patient,edit_patient, next_of_kin, Edit_Next_Of_Kin
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 from fastapi import HTTPException, status
@@ -39,7 +39,7 @@ def get_patients_by_docter(db:Session,doctor_id:str,limnit:int,offset:int):
         )
     
 # This function creates a new patient
-def create_new_patient(db:Session,new_record:insert_patient,new_kin:Insert_Next_Of_Kin):
+def create_new_patient(db:Session,new_record:insert_patient,new_kin:next_of_kin):
     try:
         new_patient = Patient(
             frist_name = new_record.frist_name,

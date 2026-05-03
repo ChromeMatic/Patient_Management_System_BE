@@ -6,6 +6,7 @@ from patient.router import  patient_endpoint
 from users.user_router import user_endpoint
 from appointments.app_router import appointment_endpoint
 from next_of_kin.kin_router import kin_endpoint
+from Queue_.q_route import queue_endpoint
 
 app = FastAPI(
     title="Patient Managemnt System BE",
@@ -33,3 +34,4 @@ app.include_router(patient_endpoint)
 app.include_router(kin_endpoint)
 app.include_router(user_endpoint)
 app.include_router(appointment_endpoint)
+app.include_router(queue_endpoint)

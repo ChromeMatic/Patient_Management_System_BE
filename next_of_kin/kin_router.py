@@ -29,6 +29,6 @@ def Create_new_record(db:db_dependency,record:Kin_Insert):
     return create_new_record(db=db,value=record)
 
 # Edit record in database
-@kin_endpoint.post("/edit",status_code=status.HTTP_200_OK)
+@kin_endpoint.patch("/edit",status_code=status.HTTP_200_OK)
 def Edit_record(db:db_dependency,value:Edit_Kin):
     return edit_record(db=db,value=value)

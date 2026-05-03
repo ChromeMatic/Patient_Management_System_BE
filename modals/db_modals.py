@@ -5,7 +5,6 @@ from sqlalchemy import ForeignKey, Column, Boolean, String, Float, text, Enum, D
 from sqlalchemy.dialects.postgresql import UUID
 from database_config.db_config import Base
 
-
 class UserRole(str, enum.Enum):
     SUPER = "supervisor"
     ADMIN = "admin"

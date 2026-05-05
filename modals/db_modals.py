@@ -129,6 +129,14 @@ class Next_Of_Kin(Base):
 
     kin = relationship("Patient",back_populates="relative")
 
+
+# Vitals
+#  - blood pressure
+#  - pulse oximetry
+#  - body weight
+#  - body temp
+#  - hight
+#  - respiratory  rate
 class Patient_Blood_Pressure_Vitals(Base):
     __tablename__="patient_vitals"
 
@@ -143,7 +151,11 @@ class Patient_Blood_Pressure_Vitals(Base):
     blood_pressure_top_value = Column(Float,nullable=False)
     blood_pressure_bottom_value = Column(Float,nullable=False)
     body_temperature = Column(Float,nullable=False)
+    pulse_oximetry = Column(Float,nullable=False)
     plus_rate = Column(Float,nullable=False)
+    respiratory_rate = Column(Float,nullable=False)
+    height = Column(Float,nullable=True)
+    body_weight =  Column(Float,nullable=False)
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,
@@ -156,6 +168,7 @@ class Patient_Blood_Pressure_Vitals(Base):
     )
 
     patient_bl_p_rec = relationship("Patient",back_populates="blood_pressure")
+
 
 class Patients_Records(Base):
     __tablename__ = "patient_records"
@@ -228,21 +241,21 @@ class Appointment_Table(Base):
         server_default=func.now()
     )
 
-class Queue_table(Base):
-    __tablename__ = "queue_table"
+# class Queue_table(Base):
+#     __tablename__ = "queue_table"
 
-    queue_id = Column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        default=uuid.uuid4,
-        nullable=False,
-        server_default=text("gen_random_uuid()")
-    )
-    appointment_id = Column(UUID,ForeignKey(""),nullable=False)
-    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
-    status = Column(String,nullable=False) # be a const
-    created_at = Column(
-        DateTime(timezone=True),
-        nullable=False,
-        server_default=func.now()
-    )
+#     queue_id = Column(
+#         UUID(as_uuid=True),
+#         primary_key=True,
+#         default=uuid.uuid4,
+#         nullable=False,
+#         server_default=text("gen_random_uuid()")
+#     )
+#     appointment_id = Column(UUID,ForeignKey(""),nullable=False)
+#     patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+#     status = Column(String,nullable=False) # be a const
+#     created_at = Column(
+#         DateTime(timezone=True),
+#         nullable=False,
+#         server_default=func.now()
+#     )

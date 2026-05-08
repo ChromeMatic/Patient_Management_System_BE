@@ -11,6 +11,13 @@ class UserRole(str, enum.Enum):
     DOC   = "doctor"
     USER  = "regular"
 
+class appointment_status(str, enum.Enum):
+    FT = "first_time"
+    WI = "walk_in"
+    FU = "follow_up"
+    TM = "telemedicine"
+    HV = "house_vist"
+
 class Users(Base):
     __tablename__="users"
 
@@ -129,14 +136,6 @@ class Next_Of_Kin(Base):
 
     kin = relationship("Patient",back_populates="relative")
 
-
-# Vitals
-#  - blood pressure
-#  - pulse oximetry
-#  - body weight
-#  - body temp
-#  - hight
-#  - respiratory  rate
 class Patient_Blood_Pressure_Vitals(Base):
     __tablename__="patient_vitals"
 
@@ -168,7 +167,6 @@ class Patient_Blood_Pressure_Vitals(Base):
     )
 
     patient_bl_p_rec = relationship("Patient",back_populates="blood_pressure")
-
 
 class Patients_Records(Base):
     __tablename__ = "patient_records"

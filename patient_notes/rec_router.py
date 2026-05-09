@@ -12,3 +12,18 @@ db_dependency = Annotated[Session, Depends(get_db)]
 @notes_router.get("/by_id/{Id:str}",status_code=status.HTTP_200_OK)
 def Fetch_by_notes_Id(db:db_dependency,Id:str):
     return get_patient_note_by_Id(db=db,Id=Id)
+
+# Fetch notes by patient ID
+@notes_router.get("/by_patient_id/{Limit:int}/{Offset:int}/{patient_id:str}",status_code=status.HTTP_200_OK)
+def Fetch_notes_by_patient_id(db:db_dependency,Limnit:int,Offset:int,patient_id:str):
+    return get_patient_notes_by_patientID(db=db,limit=Limnit,Offset=Offset)
+
+# Create new notes endpoint
+@notes_router.post("/create",status_code=status.HTTP_201_CREATED)
+def Create_new_notes_endpoint(db:db_dependency,new_record:patient_note_insert):
+    return create_new_notes_record(db=db,record=new_record)
+
+# Edit notes endpoint
+@notes_router.patch("/edit",status_code=status.HTTP_200_OK)
+def Edit_notes_endpoint(db:db_dependency,record:patient_note_edit):
+    return edit_patient_note_record(db=db,record=record)

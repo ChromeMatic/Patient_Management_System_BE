@@ -239,21 +239,39 @@ class Appointment_Table(Base):
         server_default=func.now()
     )
 
-# class Queue_table(Base):
-#     __tablename__ = "queue_table"
+class Queue_table(Base):
+    __tablename__ = "queue_table"
 
-#     queue_id = Column(
-#         UUID(as_uuid=True),
-#         primary_key=True,
-#         default=uuid.uuid4,
-#         nullable=False,
-#         server_default=text("gen_random_uuid()")
-#     )
-#     appointment_id = Column(UUID,ForeignKey(""),nullable=False)
-#     patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
-#     status = Column(String,nullable=False) # be a const
-#     created_at = Column(
-#         DateTime(timezone=True),
-#         nullable=False,
-#         server_default=func.now()
-#     )
+    queue_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    appointment_id = Column(UUID,ForeignKey("appointment_table.appointment_id"),nullable=False)
+    patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+
+
+class Organization_Table(Base):
+
+    __tablename__ = "organization_table"
+
+    org_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    Organization_name = Column(String,nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )

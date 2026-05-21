@@ -14,9 +14,9 @@ def Fetch_by_notes_Id(db:db_dependency,Id:str):
     return get_patient_note_by_Id(db=db,Id=Id)
 
 # Fetch notes by patient ID
-@notes_router.get("/by_patient_id/{Limit:int}/{Offset:int}/{patient_id:str}",status_code=status.HTTP_200_OK)
-def Fetch_notes_by_patient_id(db:db_dependency,Limnit:int,Offset:int,patient_id:str):
-    return get_patient_notes_by_patientID(db=db,limit=Limnit,Offset=Offset,patient_id=patient_id)
+@notes_router.get("/notes_by_patient_id/{patientId}/{Limit}/{Offset}",status_code=status.HTTP_200_OK)
+def Fetch_notes_by_patient_id(db:db_dependency,Limit:int,Offset:int,patient_id:str):
+    return get_patient_notes_by_patientID(db=db,patient_id=patient_id,limit=Limit,offset=Offset)
 
 # Create new notes endpoint
 @notes_router.post("/create",status_code=status.HTTP_201_CREATED)

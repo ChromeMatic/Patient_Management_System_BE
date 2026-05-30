@@ -22,7 +22,7 @@ def create_new_notes_record(db:Session,record:patient_note_insert):
 
         New_Notes = Patients_Records(
             patient_id = record.patient_id,
-            patient_vitals = record.patient_vitals,
+            patient_vitals = record.patient_vitals_id,
             presenting_complain = record.presenting_complain,
             patient_diagnosis = record.patient_diagnosis,
             patient_treatment = record.patient_treatment,
@@ -37,7 +37,7 @@ def create_new_notes_record(db:Session,record:patient_note_insert):
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error in creating patient notes."
+            detail=f"Error in creating patient notes"
         )
 
 # Edit patient notes recordd

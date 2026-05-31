@@ -2,13 +2,12 @@ import os
 import jwt
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
-from typing import Annotated, Optional
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from typing import Optional
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from modals.db_modals import Users
 from pwdlib import PasswordHash
-from pydantic import BaseModel
+
 
 load_dotenv()
 
@@ -63,26 +62,22 @@ def verify_jwt_access_token(jwt_token:str):
 
     
 # Create JWT Access Token
-def create_access_token(user_data:dict, expires_delta:Optional[timedelta]=None):
-    try:
-        to_encode = user_data.copy()
-
-        if expires_delta:
-            expire = datetime.now(timezone.utc) + expires_delta
-        else:
-            expire = datetime.now(timezone.utc) + timedelta(minutes=minutes)
+def create_access_token(user:str,role:str, expires_delta:Optional[timedelta]):
+   try:
         
-        to_encode.update({"exp":expire})
-        encoded_web_token = jwt.encode(payload=to_encode,key=secret_key,algorithm=algorithm)
+        to_encode = { 'id':str(user),'sub':role }
+        expires_at = datetime.now(timezone.utc) + expires_delta
+        to_encode.update({'exp':expires_at})
 
-        return { "access_token":encoded_web_token, "token_type":"Barer"}
-    
-    except Exception:
+        jwt_token = jwt.encode(payload=to_encode,key=secret_key,algorithm=algorithm)
+        return jwt_token
+   
+   except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error when generating JWT token."
+            detail=f"Error in JWT-Token creation: {err}"
         )
-
+   
 # Authenticate User
 def authenticate_user(db:Session, username:str, password:str):
     try:
@@ -99,12 +94,16 @@ def authenticate_user(db:Session, username:str, password:str):
                 detail="Incorrect password."
             )
        
-        user_data:dict = {"sub": user.username, "exp":""}
-        
-        return create_access_token(user_data=user_data,expires_delta=None)
+        jwt_token = create_access_token(user=user.id,role=user.role,expires_delta=timedelta(minutes=(int(minutes))))
+
+        return {
+            "email_address": user.username,
+            "access_token": jwt_token,
+            "token_type": 'bearer'
+        }
     
-    except Exception:
+    except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Please check user cred."
+            detail=f"Please check user cred: {err}"
         )

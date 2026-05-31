@@ -257,7 +257,6 @@ class Queue_table(Base):
         server_default=func.now()
     )
 
-
 class Organization_Table(Base):
 
     __tablename__ = "organization_table"

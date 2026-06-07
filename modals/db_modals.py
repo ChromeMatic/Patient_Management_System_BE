@@ -274,3 +274,20 @@ class Organization_Table(Base):
         nullable=False,
         server_default=func.now()
     )
+
+class Status_Table(Base):
+    __tablename__ = "status_table"
+
+    status_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    status_name =  Column(String,nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )

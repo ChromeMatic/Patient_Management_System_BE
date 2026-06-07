@@ -7,6 +7,7 @@ from users.user_router import user_endpoint
 from appointments.app_router import appointment_endpoint
 from next_of_kin.kin_router import kin_endpoint
 from Queue_.q_route import queue_endpoint
+from app_status.status_router import status_endpoint
 from patient_vitals.vitials_router import vital_endpoint
 from patient_notes.rec_router import notes_router
 
@@ -31,6 +32,7 @@ def server_status_check():
     return "Server is up and running..."
 
 app.include_router(auth_router)
+app.include_router(status_endpoint)
 app.include_router(user_endpoint)
 app.include_router(docter_endpoint)
 app.include_router(patient_endpoint)
@@ -38,4 +40,4 @@ app.include_router(kin_endpoint)
 app.include_router(vital_endpoint)
 app.include_router(notes_router)
 app.include_router(appointment_endpoint)
-#app.include_router(queue_endpoint)
+app.include_router(queue_endpoint)

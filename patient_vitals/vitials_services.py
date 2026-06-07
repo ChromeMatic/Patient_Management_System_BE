@@ -8,7 +8,7 @@ from fastapi import HTTPException, status
 def get_vital_by_id(db:Session,vital_id:str):
     return db.query(Patient_Blood_Pressure_Vitals).filter(
         Patient_Blood_Pressure_Vitals.patient_vitals_id == vital_id
-    ).first()
+    ).order_by().first()
 
 # Fetch all vitals by patient id
 def get_vital_by_patient_Id(db:Session,patient_id:str):

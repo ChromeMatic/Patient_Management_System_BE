@@ -33,6 +33,7 @@ def create_new_appointment(db:Session,appointment:insert_appointment_class):
 
         new_appointment = Appointment_Table(
             patient_id = appointment.patient_id,
+            appointment_type= appointment.appointment_type,
             status = appointment.status,
             date = appointment.date
         )
@@ -55,6 +56,7 @@ def edit_appointment(db:Session,value:edit_appointment_class):
         appointment = get_appointment_by_Id(db=db,Id=value.appointment_id)
 
         appointment.patient_id = value.patient_id
+        appointment.appointment_type = value.appointment_type
         appointment.status = value.status
         appointment.date = value.date
 

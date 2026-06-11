@@ -4,6 +4,7 @@ from typing import Optional
 
 class insert_appointment_class(BaseModel):
     patient_id: str
+    appointment_type: str
     status: str
     date: str
 
@@ -11,5 +12,6 @@ class insert_appointment_class(BaseModel):
 class edit_appointment_class(BaseModel):
     appointment_id: str
     patient_id: str
+    appointment_type: str
     status: str
     date: str

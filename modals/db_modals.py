@@ -179,7 +179,6 @@ class Patients_Records(Base):
         server_default=text("gen_random_uuid()")
     )
     patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
-    patient_vitals = Column(UUID,ForeignKey("patient_vitals.patient_vitals_id"),nullable=False)
     presenting_complain = Column(String,nullable=False) 
     patient_diagnosis = Column(String,nullable=False)
     patient_treatment = Column(String,nullable=False)
@@ -194,8 +193,6 @@ class Patients_Records(Base):
         nullable=True,
         server_default=func.now()
     )
-
-    records = relationship("Patient",back_populates="history")
 
 class Patient_File(Base):
     __tablename__ = "patient_files"
@@ -231,6 +228,7 @@ class Appointment_Table(Base):
         server_default=text("gen_random_uuid()")
     )
     patient_id = Column(UUID,ForeignKey("patient.patient_id"),nullable=False)
+    appointment_type = Column(String,nullable=False)
     status = Column(String,nullable=False)
     date = Column(DateTime(timezone=True),nullable=False)
     created_at = Column(

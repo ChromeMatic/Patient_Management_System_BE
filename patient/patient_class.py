@@ -43,3 +43,10 @@ class Edit_Next_Of_Kin(BaseModel):
     relation:str
     phone_number:str
     current_address:str
+
+class Patient_Search(BaseModel):
+    frist_name:Optional[str]
+    last_name:Optional[str]  
+    TRN:Optional[str]
+    limit:int
+    offset:int

@@ -1,5 +1,5 @@
 from modals.db_modals import Patient, Next_Of_Kin, Patients_Records
-from patient.patient_class import insert_patient,edit_patient, next_of_kin, Edit_Next_Of_Kin
+from patient.patient_class import insert_patient,edit_patient, next_of_kin, Patient_Search
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 from fastapi import HTTPException, status
@@ -98,4 +98,37 @@ def edit_patient_record(db:Session,record:edit_patient):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error in editing patient record."
         )    
-    
+
+# This handles seach of patient
+def search_by(db:Session,value:Patient_Search):
+    try:
+
+        if value.frist_name is None and value.last_name is None:
+            result = db.query(Patient).filter(
+                Patient.TRN.ilike(f"%{value.TRN}%")
+            ).limit(limit=value.limit).offset(offset=value.offset).all()
+
+        if value.frist_name is not None and value.last_name is None and value.TRN is None:
+            result = db.query(Patient).filter(
+                Patient.frist_name.ilike(f"%{value.frist_name}%")
+            ).limit(limit=value.limit).offset(offset=value.offset).all()
+             
+        if value.last_name is not None and value.frist_name is None and value.TRN is None:
+            result = db.query(Patient).filter(
+                Patient.last_name.ilike(f"%{value.last_name}%")
+            ).limit(limit=value.limit).offset(offset=value.offset).all()
+
+        if value.last_name is not None and value.frist_name is not None and value.TRN is None:
+            result = db.query(Patient).filter(
+                Patient.last_name.ilike(f"%{value.last_name}%"),
+                Patient.frist_name.ilike(f"%{value.frist_name}%")
+            ).limit(limit=value.limit).offset(offset=value.offset).all()
+
+        return result
+
+    except Exception:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error in editing patient record."
+    )        

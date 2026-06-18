@@ -194,6 +194,8 @@ class Patients_Records(Base):
         server_default=func.now()
     )
 
+    records = relationship("Patient",back_populates="history")
+
 class Patient_File(Base):
     __tablename__ = "patient_files"
 

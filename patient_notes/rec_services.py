@@ -22,7 +22,6 @@ def create_new_notes_record(db:Session,record:patient_note_insert):
 
         New_Notes = Patients_Records(
             patient_id = record.patient_id,
-            patient_vitals = record.patient_vitals_id,
             presenting_complain = record.presenting_complain,
             patient_diagnosis = record.patient_diagnosis,
             patient_treatment = record.patient_treatment,

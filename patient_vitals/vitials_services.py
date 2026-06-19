@@ -47,7 +47,7 @@ def create_new_record(db:Session,new_record:patient_vitals_insert):
 def edit_patient_info(db:Session,value:patient_vitals_edit):
     try:
 
-        info = get_vital_by_id(db=db,vital_id=value.patient_id)
+        info = get_vital_by_id(db=db,vital_id=value.patient_vitals_id)
 
         info.patient_id = value.patient_id
         info.blood_pressure_top_value= value.blood_pressure_top_value

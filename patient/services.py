@@ -44,6 +44,7 @@ def create_new_patient(db:Session,new_record:insert_patient,new_kin:next_of_kin)
         new_patient = Patient(
             frist_name = new_record.frist_name,
             last_name = new_record.last_name,
+            middle_name = new_record.middle_name,
             DOB = new_record.DOB,
             TRN = new_record.TRN,
             Address =  new_record.Address,
@@ -83,6 +84,7 @@ def edit_patient_record(db:Session,record:edit_patient):
         patient_record.docter_id = record.docter_id
         patient_record.frist_name = record.frist_name
         patient_record.last_name = record.last_name 
+        patient_record.middle_name = record.middle_name
         patient_record.DOB = record.DOB
         patient_record.TRN = record.TRN
         patient_record.Address = record.Address

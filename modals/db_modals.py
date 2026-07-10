@@ -88,6 +88,7 @@ class Patient(Base):
     docter_id = Column(UUID,ForeignKey("docter_table.docter_id"),nullable=True)
     frist_name = Column(String,nullable=False)
     last_name = Column(String,nullable=False)
+    middle_name = Column(String,nullable=True)
     DOB = Column(DateTime,nullable=False)
     TRN = Column(String, nullable=False)
     phone_number = Column(String,nullable=False)

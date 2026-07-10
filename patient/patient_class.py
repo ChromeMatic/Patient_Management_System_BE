@@ -5,6 +5,7 @@ from typing import Optional
 class insert_patient(BaseModel):
     frist_name:str
     last_name:str
+    middle_name:Optional[str]
     DOB:str
     TRN: str
     phone_number: str
@@ -15,6 +16,7 @@ class edit_patient(BaseModel):
     docter_id:str
     frist_name:str
     last_name:str
+    middle_name:Optional[str]
     DOB:str
     TRN: str
     Address: str

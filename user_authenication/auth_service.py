@@ -79,7 +79,7 @@ def create_access_token(user:str,role:str, expires_delta:Optional[timedelta]):
         )
    
 # Authenticate User
-def authenticate_user(db:Session, username:str, password:str):
+def   authenticate_user(db:Session, username:str, password:str):
     try:
         user = get_user_info(db=db,username=username)
 

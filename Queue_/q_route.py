@@ -10,7 +10,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 
 @queue_endpoint.get("/all/{Limit:int}/{Offset:int}",status_code=status.HTTP_200_OK)
-def Fetch_all_queues(db:db_dependency,Limit:str,Offset:str):
+def Fetch_all_queues(db:db_dependency,Limit:int,Offset:int):
     return get_queues(db=db,limit=Limit,offset=Offset)
 
 @queue_endpoint.post("/create",status_code=status.HTTP_200_OK)

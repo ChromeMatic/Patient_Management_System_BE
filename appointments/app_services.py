@@ -6,7 +6,7 @@ from datetime import date
 
 # This function gets all Appointment from Database
 def get_all_appointments(db:Session,Limit:int,Offset:int):
-    return db.query(Appointment_Table).limit(Limit).offset(Offset).all()
+    return db.query(Appointment_Table).limit(Limit).offset(Offset).order_by(Appointment_Table.created_at.desc()).all()
 
 
 # This function get appointment By Id from Database
@@ -19,13 +19,13 @@ def get_appointment_by_Id(db:Session,Id:str):
 def get_appointment_by_patient_id(db:Session,patient_id:str,Limit:int,Offset:int):
     return db.query(Appointment_Table).where(
         Appointment_Table.patient_id == patient_id
-    ).limit(Limit).offset(Offset).all()
+    ).limit(Limit).offset(Offset).order_by(Appointment_Table.created_at.desc()).all()
 
 # This Fuction gets all Appointments base on current Today's date
 def get_todays_appointment(db:Session,Limit:int,Offset:int):
     return db.query(Appointment_Table).where(
         Appointment_Table.date == date.today()
-    ).limit(Limit).offset(Offset).all()
+    ).limit(Limit).offset(Offset).order_by(Appointment_Table.created_at.desc()).all()
 
 # This function creates new appointment record
 def create_new_appointment(db:Session,appointment:insert_appointment_class):

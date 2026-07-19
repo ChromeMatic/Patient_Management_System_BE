@@ -7,7 +7,7 @@ from fastapi import HTTPException, status
 
 # Fetch all Next of Kin all records
 def get_all_next_of_kin_records(db:Session,limnit:int,offset:int):
-    return db.query(Next_Of_Kin).limit(limit=limnit).offset(offset=offset).all()
+    return db.query(Next_Of_Kin).limit(limit=limnit).offset(offset=offset).order_by(Next_Of_Kin.created_at.desc()).all()
 
 # Fetch Next of Kin all record by Id 
 def get_record_by_id(db:Session,Id:str):

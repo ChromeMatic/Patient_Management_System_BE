@@ -8,13 +8,13 @@ from fastapi import HTTPException, status
 def get_vital_by_id(db:Session,vital_id:str):
     return db.query(Patient_Blood_Pressure_Vitals).filter(
         Patient_Blood_Pressure_Vitals.patient_vitals_id == vital_id
-    ).order_by().first()
+    ) .first()
 
 # Fetch all vitals by patient id
 def get_vital_by_patient_Id(db:Session,patient_id:str):
     return db.query(Patient_Blood_Pressure_Vitals).filter(
         Patient_Blood_Pressure_Vitals.patient_id == patient_id
-    ).all()
+    ).order_by(Patient_Blood_Pressure_Vitals.created_at.desc()).all()
 
 # Create New Vital data in database
 def create_new_record(db:Session,new_record:patient_vitals_insert):

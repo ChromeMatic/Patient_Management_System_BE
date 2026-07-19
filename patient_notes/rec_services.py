@@ -8,13 +8,13 @@ from fastapi import HTTPException, status
 def get_patient_note_by_Id(db:Session,Id:str):
     return db.query(Patients_Records).filter(
         Patients_Records.record_id == Id
-    ).first()
+    ).order_by(Patients_Records.created_at.desc()).first()
 
 # Get patient notes by patient ID
 def get_patient_notes_by_patientID(db:Session,patient_id:str,limit:int,offset:int):
     return db.query(Patients_Records).filter(
         Patients_Records.patient_id == patient_id
-    ).limit(limit=limit).offset(offset=offset).all()
+    ).limit(limit=limit).offset(offset=offset).order_by(Patients_Records.created_at.desc()).all()
 
 # Create new patient notes record
 def create_new_notes_record(db:Session,record:patient_note_insert):

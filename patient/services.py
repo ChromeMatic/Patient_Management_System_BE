@@ -6,7 +6,7 @@ from fastapi import HTTPException, status
 
 # This function gets all patients from Database
 def get_all_patients(db:Session,limnit:int,offset:int):
-    return db.query(Patient).limit(limit=limnit).offset(offset=offset).all()
+    return db.query(Patient).limit(limit=limnit).offset(offset=offset).order_by(Patient.created_at.desc()).all()
 
 # This function get patient by ID
 def get_patient_by_ID(db:Session,Id:str):
@@ -22,7 +22,7 @@ def get_patient_by_ID(db:Session,Id:str):
 
 # This function gets all next of kin records
 def get_all_next_of_kin_record(db:Session,limnit:int,offset:int):
-    return db.query(Next_Of_Kin).limit(limit=limnit).offset(offset=offset).all()
+    return db.query(Next_Of_Kin).limit(limit=limnit).offset(offset=offset).order_by(Next_Of_Kin.created_at.desc()).all()
 
 # This function gets all Patient by docter ID    
 def get_patients_by_docter(db:Session,doctor_id:str,limnit:int,offset:int):

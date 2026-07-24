@@ -6,7 +6,9 @@ from datetime import date
 
 # This function gets all Appointment from Database
 def get_all_appointments(db:Session,Limit:int,Offset:int):
-    return db.query(Appointment_Table).limit(Limit).offset(Offset).order_by(Appointment_Table.created_at.desc()).all()
+    stmt = db.query(Appointment_Table).order_by(Appointment_Table.created_at.desc())
+    appointments = stmt.limit(Limit).offset(Offset).all()
+    return appointments
 
 
 # This function get appointment By Id from Database

@@ -1,6 +1,5 @@
 from modals.db_modals import Patient_Blood_Pressure_Vitals
 from patient_vitals.vitials_class import patient_vitals_insert,patient_vitals_edit
-from sqlalchemy import func
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
@@ -8,13 +7,15 @@ from fastapi import HTTPException, status
 def get_vital_by_id(db:Session,vital_id:str):
     return db.query(Patient_Blood_Pressure_Vitals).filter(
         Patient_Blood_Pressure_Vitals.patient_vitals_id == vital_id
-    ) .first()
+    ).first()
 
 # Fetch all vitals by patient id
 def get_vital_by_patient_Id(db:Session,patient_id:str):
-    return db.query(Patient_Blood_Pressure_Vitals).filter(
+    query = db.query(Patient_Blood_Pressure_Vitals).filter(
         Patient_Blood_Pressure_Vitals.patient_id == patient_id
-    ).order_by(Patient_Blood_Pressure_Vitals.created_at.desc()).all()
+    )
+    vitals = query.order_by(Patient_Blood_Pressure_Vitals.created_at.desc()).all()
+    return vitals
 
 # Create New Vital data in database
 def create_new_record(db:Session,new_record:patient_vitals_insert):

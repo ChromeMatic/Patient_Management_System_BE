@@ -7,9 +7,9 @@ from fastapi import HTTPException, status
 
 # Get all queue records from db
 def get_queues(db:Session,limit:int,offset:int):
-    return db.query(Queue_table).filter(
-       asc(Queue_table.created_at)
-    ).limit(limit=limit).offset(offset=offset).all()
+    query = db.query(Queue_table).order_by(asc(Queue_table.created_at))
+    queue_data = query.limit(limit=limit).offset(offset=offset).all()
+    return queue_data
 
 # Create Queue record
 def create_queue(db:Session,create_queue:QueueInsert):

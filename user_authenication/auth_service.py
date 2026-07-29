@@ -8,7 +8,6 @@ from sqlalchemy.orm import Session
 from modals.db_modals import Users
 from pwdlib import PasswordHash
 
-
 load_dotenv()
 
 algorithm = os.getenv("ALGORITHM")
@@ -32,7 +31,13 @@ def get_user_info(db:Session,username:str):
             Users.username == username
         ).first()
 
-        return user
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Unauthorized User."
+            )
+        else:
+            return user
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -40,25 +45,26 @@ def get_user_info(db:Session,username:str):
         )
     
 # Verify JWT Access Token
-def verify_jwt_access_token(jwt_token:str):
+def verify_jwt_access_token(jwt_token:str,db:Session):
     try:
 
         payload = jwt.decode(jwt_token,key=secret_key,algorithms=[algorithm])
-        email:str = payload.get("sub")
+        role:str = payload.get("sub")
 
-        if email is None:
+        if role is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="User's creditials could not be verified.",
                 headers={"WWW-Authenticate":"Bearer"}
             )
         
-        return  email
-    except Exception:
+        return  role
+    except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error in verifing JWT token"
+            detail=f"Error in verifing JWT token: {err}"
         )
+
 
     
 # Create JWT Access Token

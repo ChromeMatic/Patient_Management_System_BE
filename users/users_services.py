@@ -26,7 +26,7 @@ def create_new_user(db:Session,new_user:Insert_user_info):
             last_name = str(new_user.last_name),
             username = str(new_user.username),
             password = get_password_hashed(new_user.password),
-            role = UserRole.USER
+            role = new_user.role
         )
 
         db.add(user)

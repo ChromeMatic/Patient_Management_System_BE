@@ -13,8 +13,16 @@ oauth2_bear = OAuth2PasswordBearer(tokenUrl='auth/token')
 
 # This endpoint fetch all user infomation
 @user_endpoint.get("/all-users/{limit:int}/{offset}",status_code=status.HTTP_200_OK)
-def Fetch_all_users(db:db_dependency,limit:int,offset:int):
-    return get_all_users(db=db,limit=limit,offset=offset)
+def Fetch_all_users(db:db_dependency,limit:int,offset:int,token:Annotated[str,Depends(oauth2_bear)]):
+    user_info = verify_jwt_access_token(jwt_token=token,db=db)
+
+    if user_info not in ['supervisor','admin']:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User is unauthorized to view data"
+        )
+    else:
+        return get_all_users(db=db,limit=limit,offset=offset)
 
 # This endpoint fetch user by userId
 @user_endpoint.get("/get-user-by-id/{user_id:str}",status_code=status.HTTP_200_OK)
@@ -36,10 +44,26 @@ def Fetch_user_by_username(db:db_dependency,username:str):
 
 # This endpoint create new user
 @user_endpoint.post("/create-new-user/",status_code=status.HTTP_201_CREATED)
-def Create_new_user(db:db_dependency,new_user:Insert_user_info):
-    return create_new_user(db=db,new_user=new_user)
+def Create_new_user(db:db_dependency,new_user:Insert_user_info,token:Annotated[str,Depends(oauth2_bear)]):
+    user_info = verify_jwt_access_token(jwt_token=token,db=db)
+
+    if user_info not in ['supervisor','admin']:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User is unauthorized to aadd data"
+        )
+    else:
+        return create_new_user(db=db,new_user=new_user)
 
 # This endpoint edit user informtion
 @user_endpoint.patch("/edit-user-info",status_code=status.HTTP_200_OK)
-def Edit_user_infomation(db:db_dependency,userInfo:Edit_user_info):
-    return edit_user_info(db=db,user_info=userInfo)
+def Edit_user_infomation(db:db_dependency,userInfo:Edit_user_info,token:Annotated[str,Depends(oauth2_bear)]):
+    user_info = verify_jwt_access_token(jwt_token=token,db=db)
+
+    if user_info not in ['supervisor','admin']:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User is unauthorized to edit data"
+        )
+    else:
+        return edit_user_info(db=db,user_info=userInfo)

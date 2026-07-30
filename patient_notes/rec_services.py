@@ -48,7 +48,6 @@ def edit_patient_note_record(db:Session,record:patient_note_edit):
         record = get_patient_note_by_Id(db=db,Id=record.record_id)
 
         record.patient_id = record.patient_id
-        record.patient_vitals = record.patient_vitals
         record.presenting_complain = record.presenting_complain
         record.patient_diagnosis = record.patient_diagnosis
         record.patient_treatment = record.patient_treatment

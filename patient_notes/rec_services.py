@@ -59,6 +59,7 @@ def edit_patient_note_record(db:Session,record:patient_note_edit):
         return "Paatient note record added."
     
     except Exception:
+        db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error in editing patient note record."

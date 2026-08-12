@@ -11,6 +11,10 @@ def get_queues(db:Session,limit:int,offset:int):
     queue_data = query.limit(limit=limit).offset(offset=offset).all()
     return queue_data
 
+# Get queue by Id
+def get_queue_by_id(db:Session,Id:str):
+    return db.query(Queue_table).filter(Queue_table.queue_id == Id).first()
+
 # Create Queue record
 def create_queue(db:Session,create_queue:QueueInsert):
     try:
@@ -49,9 +53,29 @@ def dequeue_appointment(db:Session):
 
         return "Appointment Removed from Queue."
 
-    except Exception as e:
+    except Exception:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error dequeuing appointment"
+        )
+
+# delete from queue
+def delete_queue_record(db:Session, queue_id:str):
+    try:
+        queue_rec = get_queue_by_id(db=db,Id=queue_id)
+
+        if queue_rec is not None:
+            db.delete(queue_rec)
+            return "Recorded Deleted"
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Error"
+            )
+    except Exception:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Operation Failed"
         )

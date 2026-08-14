@@ -1,5 +1,5 @@
 from modals.db_modals import Appointment_Table
-from appointments.app_class import insert_appointment_class, edit_appointment_class
+from appointments.app_class import insert_appointment_class, edit_appointment_class, edit_appointment_status_class
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from datetime import date
@@ -28,6 +28,20 @@ def get_todays_appointment(db:Session,Limit:int,Offset:int):
     return db.query(Appointment_Table).where(
         Appointment_Table.date == date.today()
     ).limit(Limit).offset(Offset).order_by(Appointment_Table.created_at.desc()).all()
+
+# This function edit appointment_status
+def edit_appointment_status(db:Session, app_status:edit_appointment_status_class):
+    try:
+        appointment = get_appointment_by_Id(db=db,Id=app_status.appointment_id)
+        appointment.status = app_status.status
+
+        db.commit()
+        db.refresh(appointment)
+    except Exception:
+              raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Error in wditing appointment status."
+            )
 
 # This function creates new appointment record
 def create_new_appointment(db:Session,appointment:insert_appointment_class):

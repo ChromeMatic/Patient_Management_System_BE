@@ -2,8 +2,8 @@ from fastapi import Depends, APIRouter, status
 from sqlalchemy.orm import Session
 from typing import Annotated
 from database_config.db_config import get_db
-from appointments.app_class import insert_appointment_class, edit_appointment_class
-from appointments.app_services import get_all_appointments, get_appointment_by_Id, get_appointment_by_patient_id, get_todays_appointment, create_new_appointment, edit_appointment
+from appointments.app_class import insert_appointment_class, edit_appointment_class, edit_appointment_status_class
+from appointments.app_services import get_all_appointments,edit_appointment_status, get_appointment_by_Id, get_appointment_by_patient_id, get_todays_appointment, create_new_appointment, edit_appointment
 
 db_dependency = Annotated[Session, Depends(get_db)]
 appointment_endpoint = APIRouter(prefix="/Appointment",tags=["Appointment Endpoint"])
@@ -38,3 +38,8 @@ def Created_new_appointment(db:db_dependency,value:insert_appointment_class):
 @appointment_endpoint.patch("/edit_appointment",status_code=status.HTTP_200_OK)
 def Edit_appointment(db:db_dependency,value:edit_appointment_class):
     return edit_appointment(db=db,value=value)
+
+# This route edit appointment status
+@appointment_endpoint.patch("/edit_status_appointment",status_code=status.HTTP_200_OK)
+def Edit_appointment_status(db:db_dependency,value:edit_appointment_status_class):
+    return edit_appointment_status(db=db,app_status=value)

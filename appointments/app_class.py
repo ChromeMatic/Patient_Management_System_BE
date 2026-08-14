@@ -15,3 +15,9 @@ class edit_appointment_class(BaseModel):
     appointment_type: str
     status: str
     date: str
+
+
+class edit_appointment_status_class(BaseModel):
+    appointment_id: str
+    patient_id: str
+    status: str

@@ -16,7 +16,7 @@ oauth2_bear = OAuth2PasswordBearer(tokenUrl='auth/token')
 def Fetch_by_notes_Id(db:db_dependency,Id:str,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
 
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -29,7 +29,7 @@ def Fetch_by_notes_Id(db:db_dependency,Id:str,token:Annotated[str,Depends(oauth2
 def Fetch_notes_by_patient_id(db:db_dependency,Limit:int,Offset:int,patient_id:str,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
 
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -42,7 +42,7 @@ def Fetch_notes_by_patient_id(db:db_dependency,Limit:int,Offset:int,patient_id:s
 def Create_new_notes_endpoint(db:db_dependency,new_record:patient_note_insert,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
 
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -55,7 +55,7 @@ def Create_new_notes_endpoint(db:db_dependency,new_record:patient_note_insert,to
 def Edit_notes_endpoint(db:db_dependency,record:patient_note_edit,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
 
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"

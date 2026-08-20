@@ -16,7 +16,7 @@ oauth2_bear = OAuth2PasswordBearer(tokenUrl='auth/token')
 def Fetch_all_records(db:db_dependency,limit:int,offset:int,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
     
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -29,7 +29,7 @@ def Fetch_all_records(db:db_dependency,limit:int,offset:int,token:Annotated[str,
 def Fetch_by_Id(db:db_dependency,kin_id:str,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db) 
 
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -42,7 +42,7 @@ def Fetch_by_Id(db:db_dependency,kin_id:str,token:Annotated[str,Depends(oauth2_b
 def Fetch_by_patient_id(db:db_dependency,patient_id:str,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
    
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -55,7 +55,7 @@ def Fetch_by_patient_id(db:db_dependency,patient_id:str,token:Annotated[str,Depe
 def Create_new_record(db:db_dependency,record:Kin_Insert,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
    
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"
@@ -68,7 +68,7 @@ def Create_new_record(db:db_dependency,record:Kin_Insert,token:Annotated[str,Dep
 def Edit_record(db:db_dependency,value:Edit_Kin,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
    
-    if user_info not in ['supervisor','admin']:
+    if user_info not in ['supervisor','admin','doctor','nurse']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"

@@ -9,6 +9,8 @@ class UserRole(str, enum.Enum):
     SUPER = "supervisor"
     ADMIN = "admin"
     DOC   = "doctor"
+    NURSE = "nurse"
+    ASS   = "clerk"
     USER  = "regular"
 
 class appointment_status(str, enum.Enum):

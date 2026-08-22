@@ -13,7 +13,7 @@ from patient_notes.rec_router import notes_router
 
 app = FastAPI(
     title="Patient Managemnt System BE",
-    version="0.0.1",
+    version="1.0.0",
     description="This contains the backend logic for the Patient Managemnt System build with ptython (FastAPI)"
 )
 

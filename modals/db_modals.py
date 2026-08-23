@@ -51,6 +51,29 @@ class Users(Base):
         server_default=func.now()
     )
 
+class UserRole(Base):
+    __tablename__ = "user_role"
+
+    user_role_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+        server_default=text("gen_random_uuid()")
+    )
+    role_name= Column(String,nullable=False)
+    created_at = Column(
+         DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
+    edited_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+        server_default=func.now()
+    )
+
+
 class Docter(Base):
 
     __tablename__="docter_table"

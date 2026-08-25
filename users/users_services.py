@@ -1,5 +1,5 @@
 from users.users_class import Insert_user_info,Edit_user_info
-from modals.db_modals import Users,UserRole
+from modals.db_modals import Users,UserRole, userRole
 from user_authenication.auth_service import get_password_hashed
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -20,6 +20,24 @@ def get_user_by_usernme(db:Session,usernaame:str):
 # This function adds new user to databse table
 def create_new_user(db:Session,new_user:Insert_user_info):
     try:
+
+        if new_user.role == 'supervisor':
+            new_user.role = userRole.SUPER
+
+        if new_user.role == 'admin':
+            new_user.role = userRole.ADMIN
+
+        if new_user.role == 'doctor':
+            new_user.role = userRole.DOC
+
+        if new_user.role == 'nurse':
+            new_user.role = userRole.NURSE
+
+        if new_user.role == 'clerk':
+            new_user.role = userRole.ASS
+
+        if new_user.role == 'regular':
+            new_user.role = userRole.USER
 
         user = Users(
             frist_name = str(new_user.frist_name),

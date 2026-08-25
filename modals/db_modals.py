@@ -36,9 +36,9 @@ class Users(Base):
     password = Column(String,nullable=False)
     is_active = Column(Boolean,default=True,nullable=False)
     role = Column(
-        Enum(UserRole, name="user_role_enum"),
+        Enum(userRole, name="user_role_enum"),
         nullable=False,
-        default=UserRole.USER
+        default=userRole.USER
     )
     created_at = Column(
         DateTime(timezone=True),

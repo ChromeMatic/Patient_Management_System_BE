@@ -55,7 +55,7 @@ def Create_new_notes_endpoint(db:db_dependency,new_record:patient_note_insert,to
 def Edit_notes_endpoint(db:db_dependency,record:patient_note_edit,token:Annotated[str,Depends(oauth2_bear)]):
     user_info = verify_jwt_access_token(jwt_token=token,db=db)
 
-    if user_info not in ['supervisor','admin','doctor','nurse']:
+    if user_info not in ['supervisor','admin','doctor']:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is unauthorized to view data"

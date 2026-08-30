@@ -45,16 +45,16 @@ def create_new_notes_record(db:Session,record:patient_note_insert):
 def edit_patient_note_record(db:Session,record:patient_note_edit):
     try:
 
-        record = get_patient_note_by_Id(db=db,Id=record.record_id)
+        edit_record = get_patient_note_by_Id(db=db,Id=record.record_id)
 
-        record.patient_id = record.patient_id
-        record.presenting_complain = record.presenting_complain
-        record.patient_diagnosis = record.patient_diagnosis
-        record.patient_treatment = record.patient_treatment
-        record.notes = record.notes
+        edit_record.patient_id = record.patient_id
+        edit_record.presenting_complain = record.presenting_complain
+        edit_record.patient_diagnosis = record.patient_diagnosis
+        edit_record.patient_treatment = record.patient_treatment
+        edit_record.notes = record.notes
 
         db.commit()
-        db.refresh(record)
+        db.refresh(edit_record)
 
         return "Paatient note record added."
     

@@ -47,6 +47,8 @@ def edit_appointment_status(db:Session, app_status:edit_appointment_status_class
 
         db.commit()
         db.refresh(appointment)
+
+        return "status edited"
     except Exception:
               raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -97,5 +99,3 @@ def edit_appointment(db:Session,value:edit_appointment_class):
         detail="Error in editing appointment record."
     )
 
-
-# Queue implemetation

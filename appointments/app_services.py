@@ -2,7 +2,7 @@ from modals.db_modals import Appointment_Table
 from appointments.app_class import insert_appointment_class, edit_appointment_class, edit_appointment_status_class
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from datetime import date
+from datetime import date, datetime
 
 # This function gets all Appointment from Database
 def get_all_appointments(db:Session,Limit:int,Offset:int):
@@ -19,9 +19,19 @@ def get_appointment_by_Id(db:Session,Id:str):
 
 # This function gets all appiontments by patient IDs
 def get_appointment_by_patient_id(db:Session,patient_id:str,Limit:int,Offset:int):
-    return db.query(Appointment_Table).where(
-        Appointment_Table.patient_id == patient_id
-    ).limit(Limit).offset(Offset).order_by(Appointment_Table.created_at.desc()).all()
+    try:
+        reseult =  db.query(Appointment_Table).where(
+            Appointment_Table.patient_id == patient_id
+        ).order_by(Appointment_Table.created_at.desc()).limit(
+            Limit
+        ).offset(Offset).all()
+
+        return reseult
+    except Exception as err:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error :{err}"
+        )
 
 # This Fuction gets all Appointments base on current Today's date
 def get_todays_appointment(db:Session,Limit:int,Offset:int):
@@ -46,12 +56,13 @@ def edit_appointment_status(db:Session, app_status:edit_appointment_status_class
 # This function creates new appointment record
 def create_new_appointment(db:Session,appointment:insert_appointment_class):
     try:
+        date_format = "%m-%d-%Y"
 
         new_appointment = Appointment_Table(
             patient_id = appointment.patient_id,
             appointment_type= appointment.appointment_type,
             status = appointment.status,
-            date = appointment.date
+            date = datetime.strptime(appointment.date,date_format)
         )
 
         db.add(new_appointment)
@@ -59,10 +70,10 @@ def create_new_appointment(db:Session,appointment:insert_appointment_class):
 
         return "New appointment added."
 
-    except Exception:
+    except Exception as err:
           raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error in creating new appointment in system."
+            detail=f"Error in creating new appointment in system: {err}"
         )
     
 # This function edit appointment record

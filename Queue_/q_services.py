@@ -19,7 +19,9 @@ def get_queue_by_id(db:Session,Id:str):
 def create_queue(db:Session,create_queue:QueueInsert):
     try:
 
-        New_Queue = Queue_table(appointment_id =  create_queue.appointment_id)
+        New_Queue = Queue_table(
+            appointment_id =  create_queue.appointment_id
+        )
         db.add(New_Queue)
         db.commit()
 

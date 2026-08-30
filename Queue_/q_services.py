@@ -20,7 +20,8 @@ def create_queue(db:Session,create_queue:QueueInsert):
     try:
 
         New_Queue = Queue_table(
-            appointment_id =  create_queue.appointment_id
+            appointment_id =  create_queue.appointment_id,
+            slot_number = create_queue.slot_number
         )
         db.add(New_Queue)
         db.commit()

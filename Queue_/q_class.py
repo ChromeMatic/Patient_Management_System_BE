@@ -9,3 +9,4 @@ class Queue(BaseModel):
 
 class QueueInsert(BaseModel):
     appointment_id:str
+    slot_number:int

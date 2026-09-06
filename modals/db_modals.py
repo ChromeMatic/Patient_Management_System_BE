@@ -276,7 +276,6 @@ class Queue_table(Base):
         server_default=text("gen_random_uuid()")
     )
     appointment_id = Column(UUID,ForeignKey("appointment_table.appointment_id"),nullable=False)
-    slot_number = Column(Integer,nullable=False)
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,

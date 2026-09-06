@@ -19,10 +19,7 @@ def get_queue_by_id(db:Session,Id:str):
 def create_queue(db:Session,create_queue:QueueInsert):
     try:
 
-        New_Queue = Queue_table(
-            appointment_id =  create_queue.appointment_id,
-            slot_number = create_queue.slot_number
-        )
+        New_Queue = Queue_table(appointment_id =  create_queue.appointment_id)
         db.add(New_Queue)
         db.commit()
 
@@ -67,15 +64,8 @@ def dequeue_appointment(db:Session):
 def delete_queue_record(db:Session, queue_id:str):
     try:
         queue_rec = get_queue_by_id(db=db,Id=queue_id)
-
-        if queue_rec is not None:
-            db.delete(queue_rec)
-            return "Recorded Deleted"
-        else:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Error"
-            )
+        db.delete(queue_rec)
+        return "Recorded Deleted"
     except Exception:
         db.rollback()
         raise HTTPException(

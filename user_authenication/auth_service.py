@@ -40,7 +40,7 @@ def get_user_info(db:Session,username:str):
             return user
     except Exception:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Please check user cred."
         )
     
@@ -80,7 +80,7 @@ def create_access_token(user:str,role:str, expires_delta:Optional[timedelta]):
    
    except Exception as err:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Error in JWT-Token creation: {err}"
         )
    
@@ -103,13 +103,14 @@ def   authenticate_user(db:Session, username:str, password:str):
         jwt_token = create_access_token(user=user.id,role=user.role,expires_delta=timedelta(minutes=(int(minutes))))
 
         return {
-            "email_address": user.username,
+            "frist_name": user.frist_name,
+            "last_name": user.last_name,
             "access_token": jwt_token,
             "token_type": 'bearer'
         }
     
     except Exception as err:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Please check user cred: {err}"
         )

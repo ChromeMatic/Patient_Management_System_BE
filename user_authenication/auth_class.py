@@ -14,6 +14,7 @@ class LoginRequest(BaseModel):
     password:str
 
 class AccessToken(BaseModel):
-    email_address:str
+    frist_name:str
+    last_name:str
     access_token:str
     token_type:str

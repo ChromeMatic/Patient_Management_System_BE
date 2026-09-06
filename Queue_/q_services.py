@@ -61,6 +61,8 @@ def delete_queue_record(db:Session, queue_id:str):
     try:
         queue_rec = get_queue_by_id(db=db,Id=queue_id)
         db.delete(queue_rec)
+        db.commit()
+        
         return "Recorded Deleted"
     except Exception:
         db.rollback()

@@ -13,7 +13,6 @@ class insert_patient(BaseModel):
 
 class edit_patient(BaseModel):
     patient_id:str
-    docter_id:str
     frist_name:str
     last_name:str
     middle_name:Optional[str]

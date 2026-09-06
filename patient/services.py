@@ -81,7 +81,6 @@ def edit_patient_record(db:Session,record:edit_patient):
     try:
         patient_record = get_patient_by_ID(db=db,Id=record.patient_id)
 
-        patient_record.docter_id = record.docter_id
         patient_record.frist_name = record.frist_name
         patient_record.last_name = record.last_name 
         patient_record.middle_name = record.middle_name

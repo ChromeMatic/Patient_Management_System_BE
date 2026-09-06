@@ -44,14 +44,10 @@ def dequeue_appointment(db:Session):
         if not next_in_line:
             return None # Queue is empty
 
-        # 2. Store the ID so we can return it
-        completed_appointment_id = next_in_line.appointment_id
+        result = delete_queue_record(db=db,queue_id=next_in_line.appointment_id)
 
-        # 3. Remove it from the queue
-        db.delete(next_in_line)
-        db.commit()
-
-        return "Appointment Removed from Queue."
+        if result is not None:
+            return "Appointment Removed from Queue."
 
     except Exception:
         db.rollback()

@@ -61,7 +61,7 @@ def verify_jwt_access_token(jwt_token:str,db:Session):
         return  role
     except Exception as err:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Error in verifing JWT token: {err}"
         )
 

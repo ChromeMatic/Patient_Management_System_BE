@@ -92,9 +92,12 @@ If you don't have Docker installed, follow these steps:
 ```bash
 docker --version
 docker-compose --version
-
 ```
 
+4. **Docker Image** Build docker image:
+```bash
+docker build -t armanibrown/patient_management_system:0.0.1 .
+```
 
 
 ### Step 2: Run the Infrastructure

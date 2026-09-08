@@ -5,6 +5,7 @@ from typing import Optional
 class insert_patient(BaseModel):
     frist_name:str
     last_name:str
+    middle_name:Optional[str]
     DOB:str
     TRN: str
     phone_number: str
@@ -12,16 +13,23 @@ class insert_patient(BaseModel):
 
 class edit_patient(BaseModel):
     patient_id:str
-    docter_id:str
     frist_name:str
     last_name:str
+    middle_name:Optional[str]
     DOB:str
     TRN: str
     Address: str
 
 class Insert_Next_Of_Kin(BaseModel):
     next_of_kin_id:Optional[str]
-    patient_id:str
+    patient_id:Optional[str]
+    frist_name:str
+    last_name:str
+    relation:str
+    phone_number:str
+    current_address:str
+
+class next_of_kin(BaseModel):
     frist_name:str
     last_name:str
     relation:str
@@ -36,3 +44,10 @@ class Edit_Next_Of_Kin(BaseModel):
     relation:str
     phone_number:str
     current_address:str
+
+class Patient_Search(BaseModel):
+    frist_name:Optional[str]
+    last_name:Optional[str]  
+    TRN:Optional[str]
+    limit:int
+    offset:int

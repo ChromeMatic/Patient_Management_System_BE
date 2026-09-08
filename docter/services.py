@@ -6,7 +6,9 @@ from fastapi import Depends, HTTPException, status
 
 # This function gets all doctor info from database
 def get_all_doctor(db:Session, limit:int, offset:int):
-    return db.query(Docter).limit(limit=limit).offset(offset=offset).all()
+    stmt = db.query(Docter).order_by(Docter.created_at.desc())
+    doctors = stmt.limit(limit=limit).offset(offset=offset).all()
+    return doctors
 
 # This function get doctor info base on docter_id
 def get_doctor_by_docter_id(db:Session,docter_id:str):

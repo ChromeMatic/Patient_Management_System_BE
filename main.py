@@ -17,7 +17,7 @@ app = FastAPI(
     description="This contains the backend logic for the Patient Managemnt System build with ptython (FastAPI)"
 )
 
-origin = ["http://localhost:5173","http://localhost:5173/","https://frontend.dev-works.space/"]
+origin = ["http://localhost:5173","https://frontend.dev-works.space"]
 
 app.add_middleware(
     CORSMiddleware,

@@ -58,7 +58,7 @@ def edit_appointment_status(db:Session, app_status:edit_appointment_status_class
 # This function creates new appointment record
 def create_new_appointment(db:Session,appointment:insert_appointment_class):
     try:
-        date_format = "%m-%d-%Y"
+        date_format = "%Y-%m-%d"
 
         new_appointment = Appointment_Table(
             patient_id = appointment.patient_id,

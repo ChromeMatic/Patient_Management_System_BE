@@ -1,10 +1,11 @@
 from fastapi import Depends, APIRouter, status, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer
 from database_config.db_config import get_db
 from patient.patient_class import insert_patient,edit_patient, next_of_kin, Patient_Search
-from patient.services import get_all_patients, get_patient_by_ID, create_new_patient, edit_patient_record, get_all_next_of_kin_record, search_by
+from patient.services import get_all_patients, get_patient_by_ID, create_new_patient, edit_patient_record, get_all_next_of_kin_record, search_by, genrate_patient_document
 from user_authenication.auth_service import verify_jwt_access_token
 
 patient_endpoint = APIRouter( prefix="/Patient",tags=["Patient Endpoints"])
@@ -49,6 +50,29 @@ def Fetch_all_next_of_kin_record(db:db_dependency,limit:int,offset:int,token:Ann
         )
     else:
         return get_all_next_of_kin_record(db=db,limnit=limit,offset=offset)
+
+# This Endpoint genrates pdf document
+@patient_endpoint.get("/patients/{patient_id}/pdf")
+def download_patient_pdf(patient_id:str,db:db_dependency,token:Annotated[str,Depends(oauth2_bear)]):
+    user_info = verify_jwt_access_token(jwt_token=token,db=db)
+    
+    if user_info not in ['supervisor','admin','doctor','nurse']:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User is unauthorized to view data"
+        )
+    else:
+        # Generate PDF buffer
+        pdf_buffer = genrate_patient_document(db=db, patientId=patient_id)
+        
+        # Return as a downloadable streaming response
+        return StreamingResponse(
+            pdf_buffer,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f"attachment; filename=patient_report.pdf"
+            }
+        )
 
 # This endpoint handles patient search
 @patient_endpoint.post("/search", status_code=status.HTTP_200_OK)

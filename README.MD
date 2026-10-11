@@ -40,14 +40,12 @@ virtualenv venv
 * **Windows:**
 ```bash
 venv\Scripts\activate
-
 ```
 
 
 * **Linux / macOS:**
 ```bash
 source venv/bin/activate
-
 ```
 
 
@@ -57,7 +55,6 @@ Once the virtual environment is active, install the required packages:
 
 ```bash
 pip install -r requirements.txt
-
 ```
 
 ### 3. Run Database migrations
@@ -120,7 +117,6 @@ After setting up the database and the environment, start the FastAPI server:
 
 ```bash
 fastapi dev mian.py   
-
 ```
 
 The API documentation will be available at: `http://127.0.0.1:8000/docs`

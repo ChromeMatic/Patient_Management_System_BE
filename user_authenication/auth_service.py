@@ -6,6 +6,7 @@ from typing import Optional
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from modals.db_modals import Users
+from user_authenication.auth_class import EditUser
 from pwdlib import PasswordHash
 
 load_dotenv()
@@ -109,6 +110,27 @@ def   authenticate_user(db:Session, username:str, password:str):
             "token_type": 'bearer'
         }
     
+    except Exception as err:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Please check user cred: {err}"
+        )
+
+
+def userPasswordReset(db:Session, user_edit:EditUser):
+    try:
+
+        userdata = get_user_info(db=db,username=user_edit.username)
+
+        if userdata is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found."
+            )
+        else:
+            userdata.password = get_password_hashed(user_edit.password)
+            return "Password edited.."
+
     except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

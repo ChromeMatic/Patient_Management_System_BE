@@ -9,6 +9,16 @@ class CreateUser(BaseModel):
     user_role:Optional[str]
     disabled:Optional[bool] = False
 
+class EditUser(BaseModel):
+    id:str
+    frist_name:str
+    last_name:str
+    username:str
+    password:str
+    role:str
+    is_active:bool
+    created_at:str
+
 class LoginRequest(BaseModel):
     email_address:str
     password:str
